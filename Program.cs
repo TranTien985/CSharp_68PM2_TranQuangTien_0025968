@@ -11,7 +11,7 @@ namespace CSharp_68PM1_NguyenHoangTung_0027968
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new CSharp_68PM2_TranQuangTien_0025968.Form1());
+            Application.Run(new CSharp_68PM2_TranQuangTien_0025968.Main());
         }
     }
 }

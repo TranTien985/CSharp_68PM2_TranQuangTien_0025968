@@ -44,12 +44,14 @@ namespace CSharp_68PM2_TranQuangTien_0025968
 
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-
-            this.Name = "FrmQuanLySinhVien";
-            this.Text = "Quản Lý Sinh Viên";
-
-            this.ResumeLayout(false);
+            SuspendLayout();
+            // 
+            // FrmQuanLySinhVien
+            // 
+            ClientSize = new Size(653, 329);
+            Name = "FrmQuanLySinhVien";
+            Text = "Quản Lý Sinh Viên";
+            ResumeLayout(false);
         }
 
         private void KhoiTao()
