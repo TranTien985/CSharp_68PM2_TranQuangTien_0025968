@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QLSV" Class="databaseDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-KIKVB4G\SQLEXPRESS;Initial Catalog=QLSV;Persist Security Info=True;User ID=sa;Encrypt=True;Trust Server Certificate=True" SettingsObjectName="CSharp_68PM2_TranQuangTien_0025968.Properties.Settings" SettingsPropertyName="QLSVConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.diem" Member="diems">
+    <Type Name="diem">
+      <Column Name="madiem" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="masv" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="mamh" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="diemlan1" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="diemlan2" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Association Name="monhoc_diem" Member="monhoc" ThisKey="mamh" OtherKey="mamh" Type="monhoc" IsForeignKey="true" />
+      <Association Name="sinhvien_diem" Member="sinhvien" ThisKey="masv" OtherKey="masv" Type="sinhvien" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.lophoc" Member="lophocs">
+    <Type Name="lophoc">
+      <Column Name="malop" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="tenlop" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="khoahoc" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="namhoc" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="lophoc_sinhvien" Member="sinhviens" ThisKey="malop" OtherKey="malop" Type="sinhvien" />
+    </Type>
+  </Table>
+  <Table Name="dbo.monhoc" Member="monhocs">
+    <Type Name="monhoc">
+      <Column Name="mamh" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="tenmh" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="sotinchi" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="monhoc_diem" Member="diems" ThisKey="mamh" OtherKey="mamh" Type="diem" />
+    </Type>
+  </Table>
+  <Table Name="dbo.sinhvien" Member="sinhviens">
+    <Type Name="sinhvien">
+      <Column Name="masv" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="hoten" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="ngaysinh" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="gioitinh" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="diachi" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="sdt" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="email" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="malop" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Association Name="sinhvien_diem" Member="diems" ThisKey="masv" OtherKey="masv" Type="diem" />
+      <Association Name="lophoc_sinhvien" Member="lophoc" ThisKey="malop" OtherKey="malop" Type="lophoc" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

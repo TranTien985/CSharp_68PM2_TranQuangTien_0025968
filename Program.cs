@@ -1,4 +1,4 @@
-namespace CSharp_68PM1_NguyenHoangTung_0027968
+namespace CSharp_68PM2_TranQuangTien_0025968
 {
     internal static class Program
     {
@@ -12,6 +12,14 @@ namespace CSharp_68PM1_NguyenHoangTung_0027968
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new CSharp_68PM2_TranQuangTien_0025968.Main());
+        }
+    }
+
+    internal class ApplicationConfiguration
+    {
+        internal static void Initialize()
+        {
+            throw new NotImplementedException();
         }
     }
 }
