@@ -15,9 +15,21 @@ namespace CSharp_68PM2_TranQuangTien_0025968
             InitializeComponent();
         }
 
-        private void dgvLopHoc_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void UC_QLLH_Load(object sender, EventArgs e)
         {
+            LoadDataLop();
+        }
 
+        private void LoadDataLop()
+        {
+            var dslh = from lh in db.LopHocs
+                       select new
+                       {
+                           MaLop = lh.MaLop,
+                           TenLop = lh.TenLop,
+                           GhiChu = lh.GhiChu
+                       };
+            dgvLopHoc.DataSource = dslh.ToList();
         }
 
         private void btnThem_Click(object sender, EventArgs e)
@@ -145,6 +157,77 @@ namespace CSharp_68PM2_TranQuangTien_0025968
                 txtMaSV.Text = row.Cells["MaLop"].Value?.ToString();
                 txtHoTen.Text = row.Cells["TenLop"].Value?.ToString();
                 textBox1.Text = row.Cells["GhiChu"].Value?.ToString();
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string maLop = txtMaSV.Text.Trim();
+            string tenLop = txtHoTen.Text.Trim();
+
+            if (string.IsNullOrEmpty(maLop))
+            {
+                MessageBox.Show("Vui lòng chọn một lớp học từ bảng danh sách trước khi xem!", "Thông báo");
+                return;
+            }
+
+            var listSV = (from sv in db.SinhViens
+                          where sv.MaLop == maLop
+                          select new
+                          {
+                              MaSV = sv.MaSV,
+                              HoTen = sv.HoTen,
+                              GioiTinh = sv.GioiTinh,
+                              NgaySinh = sv.NgaySinh
+                          }).ToList();
+
+            Form formReport = new Form();
+            formReport.Text = $"Danh sách sinh viên - Lớp: {tenLop} ({maLop})";
+            formReport.Size = new System.Drawing.Size(700, 450);
+            formReport.StartPosition = FormStartPosition.CenterParent;
+
+            DataGridView dgvDisplay = new DataGridView();
+            dgvDisplay.Dock = DockStyle.Fill;
+            dgvDisplay.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvDisplay.BackgroundColor = System.Drawing.Color.White;
+            dgvDisplay.ReadOnly = true;
+            dgvDisplay.DataSource = listSV;
+
+            formReport.Controls.Add(dgvDisplay);
+            formReport.ShowDialog();
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e) { }
+        private void label1_Click(object sender, EventArgs e) { }
+        private void label6_Click(object sender, EventArgs e) { }
+
+        private void txtTimKiem_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                string tuKhoa = txtTimKiem.Text.Trim();
+
+                db = new dbDataContext();
+
+                var ketQuaTimKiem = from lh in db.LopHocs
+                                    where lh.MaLop.Contains(tuKhoa) || lh.TenLop.Contains(tuKhoa)
+                                    select new
+                                    {
+                                        MaLop = lh.MaLop,
+                                        TenLop = lh.TenLop,
+                                        GhiChu = lh.GhiChu
+                                    };
+
+                dgvLopHoc.DataSource = ketQuaTimKiem.ToList();
+
+                if (ketQuaTimKiem.Count() == 0)
+                {
+                    MessageBox.Show("Không tìm thấy lớp học nào khớp với từ khóa!", "Kết quả tìm kiếm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
