@@ -15,6 +15,46 @@ namespace CSharp_68PM2_TranQuangTien_0025968
             InitializeComponent();
         }
 
+        private void UC_QLSV_Load(object sender, EventArgs e)
+        {
+            LoadData();
+            LoadDSLH4CBX();
+        }
+
+        public void LoadData()
+        {
+            try
+            {
+                db = new dbDataContext();
+                var dssv = from sv in db.SinhViens
+                           select new
+                           {
+                               MaSV = sv.MaSV,
+                               HoTen = sv.HoTen,
+                               NgaySinh = sv.NgaySinh,
+                               GioiTinh = sv.GioiTinh,
+                               MaLop = sv.MaLop
+                           };
+                dgvSinhVien.DataSource = dssv.ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi tải dữ liệu sinh viên: " + ex.Message);
+            }
+        }
+
+        public void LoadDSLH4CBX()
+        {
+            try
+            {
+                List<LopHoc> dslh = db.LopHocs.ToList();
+                cboLop.DataSource = dslh;
+                cboLop.DisplayMember = "TenLop";
+                cboLop.ValueMember = "MaLop";
+            }
+            catch { }
+        }
+
         private void btnThem_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtMaSV.Text.Trim()) || string.IsNullOrEmpty(txtHoTen.Text.Trim()))
