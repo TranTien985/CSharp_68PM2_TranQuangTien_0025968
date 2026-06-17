@@ -15,11 +15,4 @@ namespace CSharp_68PM2_TranQuangTien_0025968
         }
     }
 
-    internal class ApplicationConfiguration
-    {
-        internal static void Initialize()
-        {
-            throw new NotImplementedException();
-        }
-    }
 }
