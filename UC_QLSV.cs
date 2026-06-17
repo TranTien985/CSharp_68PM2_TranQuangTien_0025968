@@ -87,6 +87,43 @@ namespace CSharp_68PM2_TranQuangTien_0025968
             }
         }
 
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtMaSV.Text.Trim()))
+            {
+                MessageBox.Show("Vui lòng chọn sinh viên muốn xóa khỏi danh sách!", "Thông báo");
+                return;
+            }
+
+            try
+            {
+                string maSV = txtMaSV.Text.Trim();
+                SinhVien sv = db.SinhViens.SingleOrDefault(s => s.MaSV == maSV);
+
+                if (sv != null)
+                {
+                    DialogResult result = MessageBox.Show($"Bạn có chắc chắn muốn xóa sinh viên: {sv.HoTen} không?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (result == DialogResult.Yes)
+                    {
+                        db.SinhViens.DeleteOnSubmit(sv);
+                        db.SubmitChanges();
+
+                        MessageBox.Show("Đã xóa sinh viên thành công!", "Thành công");
+                        LoadData();
+                        btnLamMoi_Click(sender, e);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Sinh viên này không tồn tại hoặc đã bị xóa trước đó!", "Lỗi");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi xóa sinh viên: " + ex.Message, "Lỗi");
+            }
+        }
+
         private void dgvSinhVien_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
