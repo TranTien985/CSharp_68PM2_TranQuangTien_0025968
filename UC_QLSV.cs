@@ -52,6 +52,41 @@ namespace CSharp_68PM2_TranQuangTien_0025968
             }
         }
 
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtMaSV.Text.Trim()))
+            {
+                MessageBox.Show("Vui lòng chọn sinh viên cần sửa đổi thông tin!", "Thông báo");
+                return;
+            }
+
+            try
+            {
+                string maSV = txtMaSV.Text.Trim();
+                SinhVien sv = db.SinhViens.SingleOrDefault(s => s.MaSV == maSV);
+
+                if (sv != null)
+                {
+                    sv.HoTen = txtHoTen.Text.Trim();
+                    sv.GioiTinh = cboGioiTinh.Text;
+                    sv.NgaySinh = dtpNgaySinh.Value;
+                    sv.MaLop = cboLop.SelectedValue.ToString();
+
+                    db.SubmitChanges();
+                    MessageBox.Show("Cập nhật thông tin sinh viên thành công!", "Thành công");
+                    LoadData();
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy sinh viên tương ứng để chỉnh sửa (Không được sửa Mã SV)!", "Lỗi");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi cập nhật dữ liệu: " + ex.Message, "Lỗi");
+            }
+        }
+
         private void dgvSinhVien_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -67,5 +102,7 @@ namespace CSharp_68PM2_TranQuangTien_0025968
                 cboLop.SelectedValue = row.Cells["MaLop"].Value?.ToString();
             }
         }
+
+
     }
 }
